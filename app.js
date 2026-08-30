@@ -16,6 +16,7 @@ connectDb()
         console.log(err)
     })
 
+
 async function connectDb() {
     await mongoose.connect(MONGO_URL)
 }

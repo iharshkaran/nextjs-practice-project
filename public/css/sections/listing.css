@@ -1,0 +1,45 @@
+.listing-link {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.listing-card {
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer;
+}
+
+/* Rounded Aspect Ratio Image */
+.card-img-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease-in-out;
+}
+
+/* Subtle image hover zoom */
+.listing-card:hover .card-img-top {
+    transform: scale(1.03);
+}
+
+/* Text Detail Styling */
+.card-title {
+    font-size: 0.95rem;
+    color: #222222;
+}
+
+.card-location {
+    font-size: 0.88rem;
+}
+
+.card-price {
+    font-size: 0.95rem;
+    color: #222222;
+}

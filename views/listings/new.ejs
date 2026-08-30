@@ -1,20 +1,51 @@
 <% layout("/layout/boilerplate") %>
 
-    <body>
-        <h3>Create a New Listing</h3>
-        <form method="POST" action="/listings">
-            <input name="listing[title]" placeholder="enter title" type="text" />
-            <br><br>
-            <textarea name="listing[description]" placeholder="enter description"></textarea>
-            <br><br>
-            <input name="listing[image]" placeholder="enter image URL/Link" type="text" />
-            <br><br>
-            <input name="listing[price]" placeholder="enter price" type="number" />
-            <br><br>
-            <input name="listing[country]" placeholder="enter country" type="text" />
-            <br><br>
-            <input name="listing[location]" placeholder="enter location" type="text" />
-            <br><br>
-            <button>Add</button>
-        </form>
-    </body>
+<div class="row mt-4 mb-5">
+  <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+    <h3 class="mb-4 fw-bold">Create a New Listing</h3>
+
+    <form method="POST" action="/listings" class="needs-validation" novalidate>
+      
+      <!-- Title -->
+      <div class="mb-3">
+        <label for="title" class="form-label fw-semibold">Title</label>
+        <input name="listing[title]" id="title" placeholder="Add a catchy title" type="text" class="form-control" required />
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label fw-semibold">Description</label>
+        <textarea name="listing[description]" id="description" placeholder="Describe your place..." class="form-control" rows="4" required></textarea>
+      </div>
+
+      <!-- Image URL -->
+      <div class="mb-3">
+        <label for="image" class="form-label fw-semibold">Image Link</label>
+        <input name="listing[image]" id="image" placeholder="Enter image URL/Link" type="text" class="form-control" />
+      </div>
+
+      <!-- Price & Country (Side by Side Grid) -->
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-label fw-semibold">Price</label>
+          <input name="listing[price]" id="price" placeholder="1200" type="number" class="form-control" required />
+        </div>
+
+        <div class="mb-3 col-md-8">
+          <label for="country" class="form-label fw-semibold">Country</label>
+          <input name="listing[country]" id="country" placeholder="India" type="text" class="form-control" required />
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="mb-3">
+        <label for="location" class="form-label fw-semibold">Location</label>
+        <input name="listing[location]" id="location" placeholder="Jaipur, Rajasthan" type="text" class="form-control" required />
+      </div>
+
+      <!-- Submit Button -->
+      <button class="btn btn-dark w-100 py-2 mt-3 text-uppercase fw-bold" style="background-color: #fe424d; border: none;">Add Listing</button>
+
+    </form>
+  </div>
+</div>

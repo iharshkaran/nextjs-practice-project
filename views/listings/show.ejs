@@ -1,28 +1,61 @@
 <% layout("/layout/boilerplate") %>
 
-    <body>
-        <h3>Listing Details :</h3>
-        <ul>
-            <li>
-                <%= listing.title %>
-            </li>
-            <li>
-                <%= listing.description %>
-            </li>
-            <li>
-                <%= listing.price.toLocaleString("en-IN") %>
-            </li>
-            <li>
-                <%= listing.location %>
-            </li>
-            <li>
-                <%= listing.country %>
-            </li>
-        </ul>
-        <br>
-        <a href="/listings/<%= listing._id %>/edit">Edit this Listing</a>
-        <br /><br />
-        <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
-            <button>Delete this listing</button>
-        </form>
-    </body>
+<div class="row mt-4 mb-5">
+  <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+    
+    <!-- Title -->
+    <h3 class="fw-bold mb-3"><%= listing.title %></h3>
+
+    <!-- Listing Card Container -->
+    <div class="card listing-card show-card border-0">
+      
+      <!-- Image Showcase -->
+      <div class="show-img-wrapper mb-3">
+        <img 
+          src="<%= listing.image.url %>" 
+          class="card-img-top show-img rounded-4" 
+          alt="listing_image"
+          style="height: 22rem; object-fit: cover; width: 100%;"
+        >
+      </div>
+
+      <!-- Card Details -->
+      <div class="card-body p-0">
+        <p class="card-text text-muted mb-2">
+          <i class="fa-solid fa-location-dot me-1 text-danger"></i>
+          <%= listing.location %>, <%= listing.country %>
+        </p>
+
+        <p class="card-text fs-5 fw-normal mb-3">
+          <%= listing.description %>
+        </p>
+
+        <p class="card-text fs-4 fw-bold mb-4">
+          &#8377; <%= listing.price.toLocaleString("en-IN") %> 
+          <span class="fs-6 text-muted fw-normal">/ night</span>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Action Buttons Row -->
+    <div class="d-flex align-items-center gap-3 mt-2">
+      <!-- Edit Button -->
+      <a 
+        href="/listings/<%= listing._id %>/edit" 
+        class="btn btn-dark px-4 py-2 fw-semibold" 
+        style="background-color: #fe424d; border: none;"
+      >
+        Edit
+      </a>
+
+      <!-- Delete Form Button -->
+      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="m-0">
+        <button class="btn btn-outline-dark px-4 py-2 fw-semibold">
+          Delete
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
