@@ -1,0 +1,39 @@
+<nav class="my-nav">
+    <div class="nav-container">
+
+        <!-- 1. Left: Brand Logo -->
+        <a href="/listings" class="nav-brand">
+            <i class="fa-regular fa-compass"></i>
+            <span>WanderLust</span>
+        </a>
+
+        <!-- 2. Middle: Search Destinations Bar -->
+        <div class="nav-search-bar">
+            <input type="text" placeholder="Search destinations" class="search-input">
+            <button class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i> Search
+            </button>
+        </div>
+
+        <!-- 3. Right: Menu Links & User Pill -->
+        <div class="nav-right">
+            <a href="/listings/new" class="nav-link-host">Become a host</a>
+
+            <!-- User Pill Dropdown Trigger -->
+            <div class="nav-user-pill" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+                <i class="fa-solid fa-circle-user user-avatar"></i>
+            </div>
+
+            <!-- Floating Dropdown Menu -->
+            <div class="dropdown-menu-custom" id="navMenu">
+                <a href="/signup" class="dropdown-item fw-bold">Sign up</a>
+                <a href="/login" class="dropdown-item">Log in</a>
+                <hr class="dropdown-divider my-1">
+                <a href="/listings/new" class="dropdown-item">Become a host</a>
+                <a href="/help" class="dropdown-item">Help Center</a>
+            </div>
+        </div>
+
+    </div>
+</nav>

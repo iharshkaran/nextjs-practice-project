@@ -1,0 +1,165 @@
+.my-nav {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ebebeb;
+    z-index: 1000;
+    padding: 0.8rem 2rem;
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 1. Brand Logo */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fe424d;
+    text-decoration: none;
+    margin-right: 42px;
+}
+
+.fa-compass{
+    font-size: 1.8rem;
+}
+
+/* 2. Search Bar Styling */
+.nav-search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #cce0e0;
+    border-radius: 40px;
+    padding: 0.3rem 0.4rem 0.3rem 1.2rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease;
+    background-color: #ffffff;
+}
+
+.nav-search-bar:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+    width: 180px;
+    color: #222222;
+}
+
+.search-btn {
+    background-color: #fe424d;
+    color: white;
+    border: none;
+    padding: 0.45rem 1rem;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* 3. Right Container */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    position: relative;
+    justify-content: flex-end;
+}
+
+.nav-link-host {
+    text-decoration: none;
+    color: #222222;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+}
+
+.nav-link-host:hover {
+    background-color: #f7f7f7;
+}
+
+/* User Pill */
+.nav-user-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: 1px solid #dddddd;
+    padding: 5px 8px 5px 12px;
+    border-radius: 21px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: box-shadow 0.2s ease;
+}
+
+.nav-user-pill:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+}
+
+.user-avatar {
+    font-size: 1.5rem;
+    color: #717171;
+}
+
+/* Floating Overlay Dropdown */
+.dropdown-menu-custom {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 220px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 0.7rem;
+    display: none;
+    z-index: 1050;
+}
+
+.dropdown-menu-custom a{
+    border-bottom: 0.1px rgba(0, 0, 0, 0.273) solid;
+}
+
+.dropdown-menu-custom.show {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0.6rem 1.2rem;
+    text-decoration: none;
+    color: #222222;
+    font-size: 15px;
+}
+
+
+.dropdown-item:hover {
+    background-color: #f7f7f7;
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    .nav-search-bar {
+        display: none;
+    }
+
+    .nav-link-host {
+        display: none;
+    }
+
+    .nav-brand {
+        margin-right: 32px;
+    }
+}
