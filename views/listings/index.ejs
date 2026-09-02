@@ -22,7 +22,7 @@
                                         <%= Listing.location %>, <%= Listing.country %>
                                     </p>
                                     <p class="card-price mt-1 mb-0">
-                                        <span class="fw-bold">&#8377; <%= Listing.price.toLocaleString("en-IN") %>
+                                        <span class="fw-bold">&#8377; <%= Listing.price ? Listing.price.toLocaleString("en-IN") : 'N/A' %>
                                         </span>
                                         <span class="text-muted fw-normal">/ night</span>
                                     </p>

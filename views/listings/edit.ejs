@@ -5,23 +5,28 @@
     <h3 class="mb-4 fw-bold">Edit your Listing</h3>
 
     <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" novalidate>
-      
+
       <!-- Title -->
       <div class="mb-3">
         <label for="title" class="form-label fw-semibold">Title</label>
         <input name="listing[title]" id="title" value="<%= listing.title %>" type="text" class="form-control" required />
+        <div class="valid-feedback">Title looks great!</div>
+        <div class="invalid-feedback">Please enter a valid title.</div>
       </div>
 
       <!-- Description -->
       <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Description</label>
         <textarea name="listing[description]" id="description" class="form-control" rows="4" required><%= listing.description %></textarea>
+        <div class="valid-feedback">Description looks good!</div>
+        <div class="invalid-feedback">Please enter a short description.</div>
       </div>
 
       <!-- Image URL -->
       <div class="mb-3">
         <label for="image" class="form-label fw-semibold">Image Link</label>
-        <input name="listing[image][url]" id="image" value="<%= listing.image.url %>" type="text" class="form-control" />
+        <input name="listing[image][url]" id="image" value="<%= listing.image ? listing.image.url : '' %>" type="text" class="form-control" />
+        <div class="valid-feedback">Image link added!</div>
       </div>
 
       <!-- Price & Country (Side by Side Grid) -->
@@ -29,11 +34,15 @@
         <div class="mb-3 col-md-4">
           <label for="price" class="form-label fw-semibold">Price</label>
           <input name="listing[price]" id="price" value="<%= listing.price %>" type="number" class="form-control" required />
+          <div class="valid-feedback">Price set!</div>
+          <div class="invalid-feedback">Price should be a valid number.</div>
         </div>
 
         <div class="mb-3 col-md-8">
           <label for="country" class="form-label fw-semibold">Country</label>
           <input name="listing[country]" id="country" value="<%= listing.country %>" type="text" class="form-control" required />
+          <div class="valid-feedback">Country name verified!</div>
+          <div class="invalid-feedback">Country name is required.</div>
         </div>
       </div>
 
@@ -41,6 +50,8 @@
       <div class="mb-3">
         <label for="location" class="form-label fw-semibold">Location</label>
         <input name="listing[location]" id="location" value="<%= listing.location %>" type="text" class="form-control" required />
+        <div class="valid-feedback">Location looks correct!</div>
+        <div class="invalid-feedback">Location should be valid.</div>
       </div>
 
       <!-- Submit Button -->
