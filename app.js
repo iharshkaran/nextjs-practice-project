@@ -1,13 +1,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing");
 const path = require('path');
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const wrapAsync = require("./utils/wrapAsync");
-const ExpressError = require("./utils/expressError");
-const listingSchema = require("./schema.js")
+
+const listings = require("./routes/listing.route.js");
+const reviews = require("./routes/review.route.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -36,65 +35,8 @@ app.get('/', (req, res) => {
     res.send("Hi, I am root")
 })
 
-
-// Validation Listing
-const ValidateListing = (req, res, next) => {
-    let { error } = listingSchema.validate(req.body);
-    if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    } else {
-        next();
-    }
-}
-
-
-// Index Route
-app.get('/listings', wrapAsync(async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render('listings/index.ejs', { allListings });
-}));
-
-// New Route
-app.get("/listings/new", ValidateListing, (req, res) => {
-
-    res.render("listings/new.ejs");
-});
-
-// Create Route
-app.post("/listings", ValidateListing, wrapAsync(async (req, res) => {
-    const allListing = new Listing(req.body.listing);
-    await allListing.save();
-    res.redirect("/listings")
-}));
-
-// Show Route
-app.get("/listings/:id", wrapAsync(async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/show.ejs", { listing });
-}));
-
-// Edit Route
-app.get("/listings/:id/edit", ValidateListing, wrapAsync(async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing })
-}));
-
-//Update Route
-app.put("/listings/:id", ValidateListing, wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    res.redirect(`/listings/${id}`);
-}));
-
-//Delete Route
-app.delete("/listings/:id", wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndDelete(id);
-    res.redirect(`/listings`);
-}));
+app.use("/listings", listings);
+app.use("/listings/:id/reviews",reviews);
 
 
 // 404 Route Handler
@@ -107,7 +49,6 @@ app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went Wrong!" } = err;
     res.status(statusCode).render("error.ejs", { message });
 });
-
 
 app.listen(8080, () => {
     console.log("Server is running on port 8080")
