@@ -4,7 +4,8 @@ const Listing = require("../models/listing");
 const wrapAsync = require("../utils/wrapAsync");
 const ExpressError = require("../utils/expressError");
 const { listingSchema } = require("../schema.js");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { isLoggedin } = require("../middleware.js")
 
 
 // Validation Listing
@@ -27,7 +28,7 @@ router.get('/', wrapAsync(async (req, res) => {
 
 
 // New Route
-router.get("/new", ValidateListing, (req, res) => {
+router.get("/new", isLoggedin, ValidateListing, (req, res) => {
     res.render("listings/new.ejs");
 });
 
@@ -54,7 +55,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
 
 
 // Edit Route
-router.get("/:id/edit", ValidateListing, wrapAsync(async (req, res) => {
+router.get("/:id/edit", isLoggedin, ValidateListing, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     if (!listing) {
@@ -66,7 +67,7 @@ router.get("/:id/edit", ValidateListing, wrapAsync(async (req, res) => {
 
 
 //Update Route
-router.put("/:id", ValidateListing, wrapAsync(async (req, res) => {
+router.put("/:id", isLoggedin, ValidateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     req.flash("success", "Listing Updated!");
@@ -75,7 +76,7 @@ router.put("/:id", ValidateListing, wrapAsync(async (req, res) => {
 
 
 //Delete Route
-router.delete("/:id", wrapAsync(async (req, res) => {
+router.delete("/:id", isLoggedin, wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndDelete(id);
     req.flash("success", "Listing Deleted!");
