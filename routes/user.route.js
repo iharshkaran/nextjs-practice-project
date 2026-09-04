@@ -46,10 +46,15 @@ router.post(
     (req, res) => {
         req.flash("success", "Welcome back to Wanderlust!");
         let redirectUrl = res.locals.redirectUrl || "/listings";
+        if (redirectUrl.includes("?_method=DELETE") || redirectUrl.includes("/reviews")) {
+            redirectUrl = "/listings";
+        }
         res.redirect(redirectUrl);
     }
 );
 
+
+//  Logout
 router.get("/logout", (req, res, next) => {
     req.logout((err) => {
         if (err) {
