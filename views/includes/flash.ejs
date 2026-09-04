@@ -1,0 +1,29 @@
+<!-- Success Flash Alert -->
+<% if (success && success.length) { %>
+  <div class="row mt-3">
+    <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+      <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 shadow-sm" role="alert">
+        <i class="fa-solid fa-circle-check fs-5"></i>
+        <div>
+          <%= success %>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<!-- Error Flash Alert -->
+<% if (error && error.length) { %>
+  <div class="row mt-3">
+    <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+      <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 shadow-sm" role="alert">
+        <i class="fa-solid fa-circle-exclamation fs-5"></i>
+        <div>
+          <%= error %>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+<% } %>

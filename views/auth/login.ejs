@@ -1,0 +1,67 @@
+<% layout("/layout/boilerplate") %>
+
+<!-- Footer hide karne ke liye -->
+<style>
+  .my-footer {
+    display: none !important;
+  }
+</style>
+
+<div class="row justify-content-center align-items-center mt-4 mb-5">
+  <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+    
+    <!-- Clean Card Wrapper -->
+    <div class="card rounded-4 p-3">
+      <div class="card-body">
+        
+        <h3 class="fw-bold mb-1 text-center">Welcome Back</h3>
+        <p class="text-muted text-center fs-6 mb-4">Log in to your WanderLust account</p>
+        
+        <form action="/login" method="POST" class="needs-validation" novalidate>
+          
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="username" class="form-label fw-semibold text-secondary">Username</label>
+            <input 
+              type="text" 
+              name="username" 
+              id="username" 
+              class="form-control form-control-lg fs-6 rounded-3" 
+              placeholder="Enter your username" 
+              required 
+            />
+            <div class="invalid-feedback">Please enter your username.</div>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-4">
+            <label for="password" class="form-label fw-semibold text-secondary">Password</label>
+            <input 
+              type="password" 
+              name="password" 
+              id="password" 
+              class="form-control form-control-lg fs-6 rounded-3" 
+              placeholder="Enter your password" 
+              required 
+            />
+            <div class="invalid-feedback">Please enter your password.</div>
+          </div>
+
+          <!-- Submit Button -->
+          <button class="btn btn-danger btn-lg w-100 fw-bold rounded-3 py-2 fs-6 shadow-sm">
+            Log In
+          </button>
+        </form>
+
+        <!-- Signup Link -->
+        <div class="text-center mt-4 pt-2 border-top">
+          <p class="text-muted fs-6 mb-0">
+            Don't have an account? <a href="/signup" class="text-danger fw-semibold text-decoration-none">Sign up</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
