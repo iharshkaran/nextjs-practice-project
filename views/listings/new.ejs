@@ -4,7 +4,8 @@
   <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
     <h3 class="mb-4 fw-bold">Create a New Listing</h3>
 
-    <form method="POST" action="/listings" class="needs-validation" novalidate>
+    <!-- enctype="multipart/form-data" is mandatory for file uploads -->
+    <form method="POST" action="/listings" enctype="multipart/form-data" class="needs-validation" novalidate>
       
       <!-- Title -->
       <div class="mb-3">
@@ -22,11 +23,12 @@
         <div class="invalid-feedback">Please enter a short description.</div>
       </div>
 
-      <!-- Image URL -->
+      <!-- File Upload Input for Cloudinary -->
       <div class="mb-3">
-        <label for="image" class="form-label fw-semibold">Image Link</label>
-        <input name="listing[image]" id="image" placeholder="Enter image URL/Link" type="text" class="form-control" />
-        <div class="valid-feedback">Image link added!</div>
+        <label for="image" class="form-label fw-semibold">Upload Listing Image</label>
+        <input name="listing[image]" id="image" type="file" class="form-control" required />
+        <div class="valid-feedback">Image file attached!</div>
+        <div class="invalid-feedback">Please upload an image file.</div>
       </div>
 
       <!-- Price & Country (Side by Side Grid) -->

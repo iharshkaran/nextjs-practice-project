@@ -24,22 +24,18 @@ module.exports.newListingFormController = (req, res) => {
 }
 
 module.exports.createNewListingController = async (req, res) => {
-    let { url } = req.body.listing.image || {};
-    let imageUrl = req.body.listing.image;
-    let filename = "listingimage";
+    let url = req.file ? req.file.path : "";
+    let filename = req.file ? req.file.filename : "";
 
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
-
-    // Check if image URL exists
-    if (imageUrl && imageUrl.trim() !== "") {
-        newListing.image = { url: imageUrl, filename };
-    }
+    newListing.image = { url, filename };
 
     await newListing.save();
     req.flash("success", "New Listing Created!");
     res.redirect("/listings");
 };
+
 
 module.exports.showRouteController = async (req, res) => {
     const { id } = req.params;
@@ -52,26 +48,29 @@ module.exports.showRouteController = async (req, res) => {
 }
 
 module.exports.editFormController = async (req, res) => {
-    const { id } = req.params;
+    let { id } = req.params;
     const listing = await Listing.findById(id);
+
     if (!listing) {
         req.flash("error", "Listing you requested for does not exist!");
         return res.redirect("/listings");
     }
-    res.render("listings/edit.ejs", { listing })
-}
+
+    // low-res preview (w_250, q_auto:low)
+    let originalImageUrl = listing.image.url;
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250,q_30");
+
+    res.render("listings/edit.ejs", { listing, originalImageUrl });
+};
 
 module.exports.updateListingController = async (req, res) => {
     let { id } = req.params;
-    let { image } = req.body.listing;
-
     let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
 
-    if (typeof image === "string" && image.trim() !== "") {
-        listing.image = {
-            url: image,
-            filename: "listingimage"
-        };
+    if (typeof req.file !== "undefined") {
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = { url, filename };
         await listing.save();
     }
 

@@ -2,18 +2,29 @@
 let defaultLat = 28.6139;
 let defaultLng = 77.2090;
 
+// Initialize map with scrollWheelZoom DISABLED by default (Airbnb style)
 const map = L.map('map', {
-  zoomControl: false
+  zoomControl: false,
+  scrollWheelZoom: false // Disables wheel hijacking page scroll
 }).setView([defaultLat, defaultLng], 12);
 
-// Top-right Zoom Control
+// Top-right Zoom Control (+/- buttons)
 L.control.zoom({ position: 'topright' }).addTo(map);
 
-// Free Watermark-Free OpenStreetMap Tile Layer
+// Watermark-Free OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
+
+// Airbnb Gesture Handling (Ctrl + Scroll to Zoom)
+map.on('wheel', (e) => {
+    if (e.originalEvent.ctrlKey || e.originalEvent.metaKey) {
+        map.scrollWheelZoom.enable();
+    } else {
+        map.scrollWheelZoom.disable();
+    }
+});
 
 // Custom FontAwesome Pin Icon
 const customIcon = L.divIcon({
@@ -23,7 +34,7 @@ const customIcon = L.divIcon({
     iconAnchor: [21, 21]
 });
 
-// Dynamic Geocoding Function (Free Nominatim API)
+// Dynamic Geocoding Function
 async function geocodeAndSetMap() {
     try {
         const searchQuery = encodeURIComponent(`${listingLocation}, ${listingCountry}`);
@@ -34,10 +45,8 @@ async function geocodeAndSetMap() {
             const lat = parseFloat(data[0].lat);
             const lon = parseFloat(data[0].lon);
 
-            // Re-center Map to fetched location
             map.setView([lat, lon], 12);
 
-            // Add Pulsing Pin Marker
             L.marker([lat, lon], { icon: customIcon }).addTo(map)
                 .bindPopup(`
                   <div style="text-align:center; padding: 4px 8px;">
@@ -47,7 +56,6 @@ async function geocodeAndSetMap() {
                 `)
                 .openPopup();
         } else {
-            console.warn("Geocoding failed for given location, using fallback coordinates.");
             L.marker([defaultLat, defaultLng], { icon: customIcon }).addTo(map)
                 .bindPopup(`<b>${listingTitle}</b><br>${listingLocation}`)
                 .openPopup();
@@ -57,5 +65,4 @@ async function geocodeAndSetMap() {
     }
 }
 
-// Call Geocoding Function on Load
 geocodeAndSetMap();

@@ -40,13 +40,13 @@
       <!-- Dropdown -->
       <div class="dropdown-menu-custom" id="navMenu">
         <% if(!currentUser){ %>
-          <a href="/signup" class="dropdown-item fw-bold text-danger">Sign up</a>
-          <a href="/login" class="dropdown-item">Log in</a>
+          <a href="/signup" class="dropdown-item fw-bold text-danger mb-1">Sign up</a>
+          <a href="/login" class="dropdown-item mb-1">Log in</a>
           <div class="dropdown-divider"></div>
           <a href="/listings" class="dropdown-item">Explore All Listings</a>
         <% } else { %>
-          <div class="dropdown-header">Signed in as <strong>@<%= currentUser.username %></strong></div>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-header mb-1">Signed in as <strong>@<%= currentUser.username %></strong></div>
+          <div class="dropdown-divider "></div>
           <a href="/listings/new" class="dropdown-item">Become a host</a>
           <a href="/listings" class="dropdown-item">All Listings</a>
           <div class="dropdown-divider"></div>
