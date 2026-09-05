@@ -1,0 +1,56 @@
+#filters {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+  scrollbar-width: none; /* Firefox */
+}
+
+#filters::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.filter {
+  text-align: center;
+  opacity: 0.7;
+  cursor: pointer;
+  text-decoration: none;
+  color: #222222;
+  transition: all 0.2s ease;
+  min-width: 60px;
+}
+
+.filter:hover, .filter.active {
+  opacity: 1;
+  color: #fe424d;
+  border-bottom: 2px solid #fe424d;
+  padding-bottom: 4px;
+}
+
+.filter i {
+  font-size: 1.3rem;
+  margin-bottom: 0.25rem;
+}
+
+.filter p {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Tax Toggle Pill */
+.tax-toggle {
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #ffffff;
+  white-space: nowrap;
+}
+
+.tax-info {
+  display: none; /* Controlled via JS toggle */
+}

@@ -1,27 +1,31 @@
 const Listing = require("../models/listing.js")
 
-module.exports.indexController = async (req, res) => {
-    const { search } = req.query;
-    let allListings;
 
-    if (search && search.trim() !== "") {
-        allListings = await Listing.find({
-            $or: [
-                { title: { $regex: search, $options: "i" } },
-                { location: { $regex: search, $options: "i" } },
-                { country: { $regex: search, $options: "i" } }
-            ]
-        });
-    } else {
-        allListings = await Listing.find({});
+module.exports.indexController = async (req, res) => {
+    const { category, search } = req.query;
+    let query = {};
+
+    if (category) {
+        query.category = category;
     }
 
-    res.render("listings/index.ejs", { allListings });
+    if (search && search.trim() !== "") {
+        query.$or = [
+            { title: { $regex: search, $options: "i" } },
+            { location: { $regex: search, $options: "i" } },
+            { country: { $regex: search, $options: "i" } }
+        ];
+    }
+
+    const allListings = await Listing.find(query);
+    res.render("listings/index.ejs", { allListings, selectedCategory: category });
 };
+
 
 module.exports.newListingFormController = (req, res) => {
     res.render("listings/new.ejs");
 }
+
 
 module.exports.createNewListingController = async (req, res) => {
     let url = req.file ? req.file.path : "";
@@ -47,6 +51,7 @@ module.exports.showRouteController = async (req, res) => {
     res.render("listings/show.ejs", { listing });
 }
 
+
 module.exports.editFormController = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
@@ -63,6 +68,7 @@ module.exports.editFormController = async (req, res) => {
     res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 
+
 module.exports.updateListingController = async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
@@ -77,6 +83,7 @@ module.exports.updateListingController = async (req, res) => {
     req.flash("success", "Listing Updated!");
     res.redirect(`/listings/${id}`);
 };
+
 
 module.exports.destroyListingContorller = async (req, res) => {
     let { id } = req.params;

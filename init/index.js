@@ -6,7 +6,7 @@ const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 main()
   .then(() => {
-    console.log("connected to DB");
+    console.log("Connected to DB");
   })
   .catch((err) => {
     console.log(err);
@@ -18,9 +18,8 @@ async function main() {
 
 const initDB = async () => {
   await Listing.deleteMany({});
-  initData.data = initData.data.map((obj) => ({ ...obj, owner: "6a9ae78424b1d55ecf22bad7" }))
   await Listing.insertMany(initData.data);
-  console.log("data was initialized");
+  console.log("Database was initialized with 50 listings!");
 };
 
 initDB();
