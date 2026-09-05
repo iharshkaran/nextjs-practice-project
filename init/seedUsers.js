@@ -1,17 +1,22 @@
+if (process.env.NODE_ENV !== "production") {
+    const path = require("path");
+    require("dotenv").config({ path: path.join(__dirname, "../.env") });
+}
+
 const mongoose = require("mongoose");
 const User = require("../models/user.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.ATLASDB_URL || process.env.MONGO_URL;
 
 main()
   .then(() => {
-    console.log("Connected to DB");
+    console.log("Connected to DB for Seeding Users");
     seedUsers();
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.log("DB Error:", err));
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbUrl);
 }
 
 const dummyUsers = [
@@ -28,7 +33,7 @@ async function seedUsers() {
       let registeredUser = new User({ username: u.username, email: u.email });
       await User.register(registeredUser, u.password);
     }
-    console.log("5 Dummy Users Registered Successfully!");
+    console.log("5 Dummy Users Registered Successfully on Atlas!");
   } catch (err) {
     console.log("Error seeding users:", err.message);
   } finally {

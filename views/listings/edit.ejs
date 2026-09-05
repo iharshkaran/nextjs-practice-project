@@ -4,14 +4,12 @@
   <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
     <h3 class="mb-4 fw-bold">Edit your Listing</h3>
 
-    <!-- enctype="multipart/form-data" for file upload -->
     <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data" class="needs-validation" novalidate>
 
       <!-- Title -->
       <div class="mb-3">
         <label for="title" class="form-label fw-semibold">Title</label>
         <input name="listing[title]" id="title" value="<%= listing.title %>" type="text" class="form-control" required />
-        <div class="valid-feedback">Title looks great!</div>
         <div class="invalid-feedback">Please enter a valid title.</div>
       </div>
 
@@ -19,11 +17,10 @@
       <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Description</label>
         <textarea name="listing[description]" id="description" class="form-control" rows="4" required><%= listing.description %></textarea>
-        <div class="valid-feedback">Description looks good!</div>
         <div class="invalid-feedback">Please enter a short description.</div>
       </div>
 
-      <!-- Existing Image Preview (Low Quality / Small Thumbnail) -->
+      <!-- Existing Image Preview -->
       <% if (originalImageUrl) { %>
         <div class="mb-3">
           <label class="form-label fw-semibold d-block">Original Listing Image</label>
@@ -45,20 +42,36 @@
         <div class="form-text text-muted">Leave empty if you want to keep the current image.</div>
       </div>
 
-      <!-- Price & Country (Side by Side Grid) -->
+      <!-- Price, Country & Category Grid -->
       <div class="row">
         <div class="mb-3 col-md-4">
           <label for="price" class="form-label fw-semibold">Price</label>
           <input name="listing[price]" id="price" value="<%= listing.price %>" type="number" class="form-control" required />
-          <div class="valid-feedback">Price set!</div>
           <div class="invalid-feedback">Price should be a valid number.</div>
         </div>
 
-        <div class="mb-3 col-md-8">
+        <div class="mb-3 col-md-4">
           <label for="country" class="form-label fw-semibold">Country</label>
           <input name="listing[country]" id="country" value="<%= listing.country %>" type="text" class="form-control" required />
-          <div class="valid-feedback">Country name verified!</div>
           <div class="invalid-feedback">Country name is required.</div>
+        </div>
+
+        <!-- Category Dropdown with Pre-selected Value -->
+        <div class="mb-3 col-md-4">
+          <label for="category" class="form-label fw-semibold">Category</label>
+          <select name="listing[category]" id="category" class="form-select" required>
+            <option value="Trending" <%= listing.category === 'Trending' ? 'selected' : '' %>>Trending</option>
+            <option value="Rooms" <%= listing.category === 'Rooms' ? 'selected' : '' %>>Rooms</option>
+            <option value="Iconic Cities" <%= listing.category === 'Iconic Cities' ? 'selected' : '' %>>Iconic Cities</option>
+            <option value="Mountains" <%= listing.category === 'Mountains' ? 'selected' : '' %>>Mountains</option>
+            <option value="Castles" <%= listing.category === 'Castles' ? 'selected' : '' %>>Castles</option>
+            <option value="Amazing Pools" <%= listing.category === 'Amazing Pools' ? 'selected' : '' %>>Amazing Pools</option>
+            <option value="Camping" <%= listing.category === 'Camping' ? 'selected' : '' %>>Camping</option>
+            <option value="Farms" <%= listing.category === 'Farms' ? 'selected' : '' %>>Farms</option>
+            <option value="Arctic" <%= listing.category === 'Arctic' ? 'selected' : '' %>>Arctic</option>
+            <option value="Beachfront" <%= listing.category === 'Beachfront' ? 'selected' : '' %>>Beachfront</option>
+          </select>
+          <div class="invalid-feedback">Please select a category.</div>
         </div>
       </div>
 
@@ -66,7 +79,6 @@
       <div class="mb-3">
         <label for="location" class="form-label fw-semibold">Location</label>
         <input name="listing[location]" id="location" value="<%= listing.location %>" type="text" class="form-control" required />
-        <div class="valid-feedback">Location looks correct!</div>
         <div class="invalid-feedback">Location should be valid.</div>
       </div>
 

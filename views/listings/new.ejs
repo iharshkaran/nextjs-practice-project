@@ -4,14 +4,12 @@
   <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
     <h3 class="mb-4 fw-bold">Create a New Listing</h3>
 
-    <!-- enctype="multipart/form-data" is mandatory for file uploads -->
     <form method="POST" action="/listings" enctype="multipart/form-data" class="needs-validation" novalidate>
       
       <!-- Title -->
       <div class="mb-3">
         <label for="title" class="form-label fw-semibold">Title</label>
         <input name="listing[title]" id="title" placeholder="Add a catchy title" type="text" class="form-control" required />
-        <div class="valid-feedback">Title looks great!</div>
         <div class="invalid-feedback">Please enter a valid title.</div>
       </div>
 
@@ -19,32 +17,47 @@
       <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Description</label>
         <textarea name="listing[description]" id="description" placeholder="Describe your place..." class="form-control" rows="4" required></textarea>
-        <div class="valid-feedback">Description looks good!</div>
         <div class="invalid-feedback">Please enter a short description.</div>
       </div>
 
-      <!-- File Upload Input for Cloudinary -->
+      <!-- Image Upload -->
       <div class="mb-3">
         <label for="image" class="form-label fw-semibold">Upload Listing Image</label>
         <input name="listing[image]" id="image" type="file" class="form-control" required />
-        <div class="valid-feedback">Image file attached!</div>
         <div class="invalid-feedback">Please upload an image file.</div>
       </div>
 
-      <!-- Price & Country (Side by Side Grid) -->
+      <!-- Price, Country & Category Grid -->
       <div class="row">
         <div class="mb-3 col-md-4">
           <label for="price" class="form-label fw-semibold">Price</label>
           <input name="listing[price]" id="price" placeholder="1200" type="number" class="form-control" required />
-          <div class="valid-feedback">Price set!</div>
           <div class="invalid-feedback">Price should be a valid number.</div>
         </div>
 
-        <div class="mb-3 col-md-8">
+        <div class="mb-3 col-md-4">
           <label for="country" class="form-label fw-semibold">Country</label>
           <input name="listing[country]" id="country" placeholder="India" type="text" class="form-control" required />
-          <div class="valid-feedback">Country name verified!</div>
           <div class="invalid-feedback">Country name is required.</div>
+        </div>
+
+        <!-- Category Dropdown Field -->
+        <div class="mb-3 col-md-4">
+          <label for="category" class="form-label fw-semibold">Category</label>
+          <select name="listing[category]" id="category" class="form-select" required>
+            <option value="" selected disabled>Select Category</option>
+            <option value="Trending">Trending</option>
+            <option value="Rooms">Rooms</option>
+            <option value="Iconic Cities">Iconic Cities</option>
+            <option value="Mountains">Mountains</option>
+            <option value="Castles">Castles</option>
+            <option value="Amazing Pools">Amazing Pools</option>
+            <option value="Camping">Camping</option>
+            <option value="Farms">Farms</option>
+            <option value="Arctic">Arctic</option>
+            <option value="Beachfront">Beachfront</option>
+          </select>
+          <div class="invalid-feedback">Please select a category.</div>
         </div>
       </div>
 
@@ -52,7 +65,6 @@
       <div class="mb-3">
         <label for="location" class="form-label fw-semibold">Location</label>
         <input name="listing[location]" id="location" placeholder="Jaipur, Rajasthan" type="text" class="form-control" required />
-        <div class="valid-feedback">Location looks correct!</div>
         <div class="invalid-feedback">Location should be valid.</div>
       </div>
 

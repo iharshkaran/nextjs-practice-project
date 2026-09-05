@@ -8,6 +8,7 @@ const path = require('path');
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
+const { MongoStore } = require("connect-mongo");
 const flash = require("connect-flash");
 const ExpressError = require("./utils/expressError.js");
 const passport = require("passport");
@@ -17,8 +18,10 @@ const User = require("./models/user.js")
 const listingsRouter = require("./routes/listing.route.js");
 const reviewsRouter = require("./routes/review.route.js");
 const userRouter = require("./routes/user.route.js");
+const PORT = process.env.PORT || 8080;
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+
+const MONGO_URL = process.env.MONGO_URL;
 
 connectDb().then(() => {
     console.log("Connected to DB");
@@ -37,20 +40,35 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+
+const store = MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto: {
+        secret: process.env.SECRET || "mysupersecretcode",
+    },
+    touchAfter: 24 * 3600,
+});
+
 const sessionOptions = {
-    secret: "mysupersecretcode",
+    store,
+    secret: process.env.SECRET || "mysupersecretcode",
     resave: false,
     saveUninitialized: true,
     cookie: {
-        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
+        secure: true,
     }
 };
+
+store.on("error", (err) => {
+    console.log("ERROR IN MONGO SESSION STORE", err);
+});
 
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.set('trust proxy', 1)
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -66,7 +84,7 @@ app.use((req, res, next) => {
 
 // Root Route
 app.get('/', (req, res) => {
-   res.render("home.ejs");
+    res.render("home.ejs");
 });
 
 // API Routes
@@ -85,6 +103,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error.ejs", { message });
 });
 
-app.listen(8080, () => {
-    console.log("Server is running on port 8080");
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
