@@ -1,113 +1,167 @@
 <% layout("/layout/boilerplate") %>
 
-  <div class="row mt-4 mb-5">
-    <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+  <!-- External Stylesheets (Leaflet + Custom Map CSS + Starability) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="/css/showMap.css" />
 
-      <!-- Title -->
-      <h3 class="fw-bold mb-3">
-        <%= listing.title %>
-      </h3>
+  <div class="row mt-4 mb-5 justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
 
-      <!-- Listing Card Container -->
-      <div class="card listing-card show-card border-0">
-
-        <!-- Image Showcase -->
-        <div class="show-img-wrapper mb-3">
-          <img src="<%= listing.image.url %>" class="card-img-top show-img rounded-4" alt="listing_image"
-            style="height: 22rem; object-fit: cover; width: 100%;">
-        </div>
-
-        <!-- Card Details -->
-        <div class="card-body p-0">
-          <p class="card-text text-muted mb-2">
-            <i class="fa-solid fa-location-dot me-1 text-danger"></i>
-            <%= listing.location %>, <%= listing.country %>
-          </p>
-
-          <%= listing.owner.username %>
-            <p class="card-text fs-5 fw-normal mb-3">
-              <%= listing.description %>
-            </p>
-
-            <p class="card-text fs-4 fw-bold mb-4">
-              &#8377; <%= listing.price.toLocaleString("en-IN") %>
-                <span class="fs-6 text-muted fw-normal">/ night</span>
-            </p>
-        </div>
-
+      <!-- Title & Location Header -->
+      <div class="mb-3">
+        <h2 class="fw-bold text-dark mb-1">
+          <%= listing.title %>
+        </h2>
+        <p class="text-muted small">
+          <i class="fa-solid fa-location-dot text-danger me-1"></i>
+          <%= listing.location %>, <%= listing.country %>
+        </p>
       </div>
 
-      <!-- Action Buttons Row -->
-      <% if(currentUser && currentUser._id.equals(listing.owner._id)){ %>
-        <div class="d-flex align-items-center gap-3 mt-2">
-          <!-- Edit Button -->
-          <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark px-4 py-2 fw-semibold"
-            style="background-color: #fe424d; border: none;">
-            Edit
-          </a>
+      <!-- Main Image Banner -->
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+        <img src="<%= listing.image.url %>" class="card-img-top show-card-img" alt="listing_image" />
+      </div>
 
-          <!-- Delete Form Button -->
-          <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="m-0">
-            <button class="btn btn-outline-dark px-4 py-2 fw-semibold">
-              Delete
-            </button>
+      <!-- Details Card -->
+      <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+        <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+          <div class="d-flex align-items-center gap-2">
+            <div class="owner-badge rounded-circle p-3 d-flex align-items-center justify-content-center"
+              style="width:48px; height:48px;">
+              <i class="fa-solid fa-user fs-5"></i>
+            </div>
+            <div>
+              <span class="text-muted small d-block">Hosted by</span>
+              <h6 class="fw-bold mb-0 text-capitalize">
+                <%= listing.owner.username %>
+              </h6>
+            </div>
+          </div>
+          <div class="text-end">
+            <span class="fs-4 fw-bold text-danger">₹<%= listing.price.toLocaleString("en-IN") %></span>
+            <span class="text-muted small">/ night</span>
+          </div>
+        </div>
+
+        <p class="text-secondary lh-base mb-0">
+          <%= listing.description %>
+        </p>
+
+        <!-- Owner Actions -->
+        <% if(currentUser && listing.owner._id.equals(currentUser._id)) { %>
+          <div class="d-flex gap-2 mt-4 pt-3 border-top">
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-dark fw-semibold px-4 rounded-3">
+              <i class="fa-solid fa-pen-to-square me-1"></i> Edit
+            </a>
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
+              <button class="btn btn-danger fw-semibold px-4 rounded-3">
+                <i class="fa-solid fa-trash me-1"></i> Delete
+              </button>
+            </form>
+          </div>
+          <% } %>
+      </div>
+
+      <!-- Leave a Review Form -->
+      <% if(currentUser) { %>
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+          <h4 class="fw-bold mb-3">Leave a Review</h4>
+          <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation" novalidate>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-secondary d-block">Rating</label>
+              <fieldset class="starability-slot">
+                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                  aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+              </fieldset>
+            </div>
+
+            <div class="mb-3">
+              <label for="comment" class="form-label fw-semibold text-secondary">Comments</label>
+              <textarea name="review[comment]" id="comment" cols="30" rows="3" class="form-control rounded-3"
+                placeholder="Share your experience..." required></textarea>
+              <div class="invalid-feedback">Please add some comments for review.</div>
+            </div>
+
+            <button class="btn btn-dark fw-bold px-4 py-2 rounded-3">Submit Review</button>
           </form>
         </div>
         <% } %>
-          <hr class="my-4" />
 
-
-          <!-- Reviews -->
-          <% if(currentUser){ %>
+          <!-- Display Reviews -->
+          <% if(listing.reviews.length> 0) { %>
             <div class="mb-4">
-              <h4 class="fw-bold mb-3">Leave a Review</h4>
-
-              <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation" novalidate>
-
-                <!-- Rating Slider -->
-                <div class="mb-2 col-4">
-                  <label for="rating" class="form-label fw-semibold">Rating</label>
-                  <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" />
-                </div>
-
-                <!-- Comment Area -->
-                <div class="mb-3">
-                  <label for="comment" class="form-label fw-semibold">Comments</label>
-                  <textarea name="review[comment]" id="comment" cols="30" rows="3" class="form-control"
-                    placeholder="Write your experience..." required></textarea>
-                  <div class="invalid-feedback">Please add some comments for review.</div>
-                </div>
-
-                <!-- Submit Button -->
-                <button class="btn btn-outline-dark fw-semibold">Submit</button>
-              </form>
-            </div>
-
-            <% } %>
-              <!-- All Reviews -->
-              <p class="fw-bold fs-5 mb-3">All Reviews</p>
-
-              <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
+              <h4 class="fw-bold mb-3">All Reviews</h4>
+              <div class="row g-3">
                 <% for(review of listing.reviews) { %>
-                  <div class="col">
-                    <div class="card h-100 border p-3 rounded-3 shadow-sm">
-                      <div class="card-body p-0">
-                        <h6 class="card-title fw-bold text-dark mb-1">@ <%= review.author.username %></h6>
-                        <p class="card-text text-muted mb-2">
+                  <div class="col-12 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 p-3 bg-white">
+                      <div class="card-body p-1">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                          <h6 class="fw-bold text-capitalize mb-0">@<%= review.author.username %>
+                          </h6>
+                          <p class="starability-result mb-0" data-rating="<%= review.rating %>"></p>
+                        </div>
+                        <p class="card-text text-secondary small mb-3">
                           <%= review.comment %>
                         </p>
-                        <p class="card-text fw-semibold text-warning mb-3">
-                          <%= review.rating %> &#9733;
-                        </p>
-                      </div>
 
-                      <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                        class="mt-auto">
-                        <button class="btn btn-sm btn-outline-danger px-3 fw-semibold">Delete</button>
-                      </form>
+                        <% if(currentUser && review.author._id.equals(currentUser._id)) { %>
+                          <form method="POST"
+                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                            <button class="btn btn-sm btn-outline-danger border-0">
+                              <i class="fa-solid fa-trash me-1"></i> Delete
+                            </button>
+                          </form>
+                          <% } %>
+                      </div>
                     </div>
                   </div>
                   <% } %>
               </div>
+            </div>
+            <% } %>
+
+              <!-- Location Map Section -->
+              <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <div>
+                    <h4 class="fw-bold mb-1">Where you'll be</h4>
+                    <p class="text-muted small mb-0">
+                      <i class="fa-solid fa-location-dot me-1 text-danger"></i>
+                      <%= listing.location %>, <%= listing.country %>
+                    </p>
+                  </div>
+                  <span class="badge rounded-pill bg-dark px-3 py-2">Exact Location</span>
+                </div>
+
+                <div class="position-relative overflow-hidden rounded-4 shadow-sm"
+                  style="border: 1px solid rgba(0,0,0,0.08);">
+                  <div id="map" style="height: 380px; width: 100%;"></div>
+                </div>
+              </div>
+
     </div>
   </div>
+
+  <!-- EJS Variables for External JS File -->
+  <script>
+    const listingTitle = "<%= listing.title %>";
+    const listingLocation = "<%= listing.location %>";
+    const listingCountry = "<%= listing.country %>";
+  </script>
+
+  <!-- External Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/js/map.js"></script>

@@ -1,43 +1,59 @@
 <nav class="my-nav">
-    <div class="nav-container">
+  <div class="nav-container">
 
-        <!-- 1. Left: Brand Logo -->
-        <a href="/listings" class="nav-brand">
-            <i class="fa-regular fa-compass"></i>
-            <span>WanderLust</span>
-        </a>
+    <!-- Brand Logo -->
+    <a href="/listings" class="nav-brand">
+      <i class="fa-regular fa-compass"></i>
+      <span class="nav-brand-text">WanderLust</span>
+    </a>
 
-        <!-- 2. Middle: Search Destinations Bar -->
-        <div class="nav-search-bar">
-            <input type="text" placeholder="Search destinations" class="search-input">
-            <button class="search-btn">
-                <i class="fa-solid fa-magnifying-glass"></i> Search
-            </button>
-        </div>
+    <!-- Middle Search Bar -->
+    <form action="/listings" method="GET" class="nav-search-bar">
+      <input 
+        type="text" 
+        name="search" 
+        placeholder="Search destinations" 
+        class="search-input" 
+        autocomplete="off" 
+      />
+      <button type="submit" class="search-btn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span class="btn-text">Search</span>
+      </button>
+    </form>
 
-        <!-- 3. Right: Menu Links & User Pill -->
-        <div class="nav-right">
-            <a href="/listings/new" class="nav-link-host">Become a host</a>
+    <!-- Right Menu -->
+    <div class="nav-right">
+      <a href="/listings/new" class="nav-link-host">Become a host</a>
 
-            <!-- User Pill Dropdown Trigger -->
-            <div class="nav-user-pill" onclick="toggleMenu()">
-                <i class="fa-solid fa-bars"></i>
-                <i class="fa-solid fa-circle-user user-avatar"></i>
-            </div>
+      <div class="nav-user-pill" id="userPillBtn">
+        <i class="fa-solid fa-bars"></i>
+        <% if(currentUser) { %>
+          <div class="user-avatar-badge">
+            <span class="user-initial"><%= currentUser.username.charAt(0).toUpperCase() %></span>
+          </div>
+        <% } else { %>
+          <i class="fa-solid fa-circle-user user-avatar"></i>
+        <% } %>
+      </div>
 
-            <!-- Floating Dropdown Menu -->
-            <div class="dropdown-menu-custom" id="navMenu">
-                <% if(!currentUser){ %>
-                    <a href="/signup" class="dropdown-item fw-bold">Sign up</a>
-                    <a href="/login" class="dropdown-item">Log in</a>
-                    <% } %>
-
-                        <% if(currentUser){ %>
-                            <a href="/listings/new" class="dropdown-item">Become a host</a>
-                            <a href="/logout" class="dropdown-item">Log out</a>
-                            <% } %>
-            </div>
-        </div>
-
+      <!-- Dropdown -->
+      <div class="dropdown-menu-custom" id="navMenu">
+        <% if(!currentUser){ %>
+          <a href="/signup" class="dropdown-item fw-bold text-danger">Sign up</a>
+          <a href="/login" class="dropdown-item">Log in</a>
+          <div class="dropdown-divider"></div>
+          <a href="/listings" class="dropdown-item">Explore All Listings</a>
+        <% } else { %>
+          <div class="dropdown-header">Signed in as <strong>@<%= currentUser.username %></strong></div>
+          <div class="dropdown-divider"></div>
+          <a href="/listings/new" class="dropdown-item">Become a host</a>
+          <a href="/listings" class="dropdown-item">All Listings</a>
+          <div class="dropdown-divider"></div>
+          <a href="/logout" class="dropdown-item text-danger fw-semibold">Log out</a>
+        <% } %>
+      </div>
     </div>
+
+  </div>
 </nav>

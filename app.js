@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 
 // Root Route
 app.get('/', (req, res) => {
-    res.send("Hi, I am root");
+   res.render("home.ejs");
 });
 
 // API Routes

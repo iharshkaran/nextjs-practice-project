@@ -1,10 +1,11 @@
 .my-nav {
     position: sticky;
     top: 0;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     border-bottom: 1px solid #ebebeb;
     z-index: 1000;
-    padding: 0.8rem 2rem;
+    padding: 0.75rem 1.5rem;
 }
 
 .nav-container {
@@ -24,10 +25,14 @@
     font-weight: 700;
     color: #fe424d;
     text-decoration: none;
-    margin-right: 42px;
+    transition: opacity 0.2s ease;
 }
 
-.fa-compass{
+.nav-brand:hover {
+    opacity: 0.9;
+}
+
+.fa-compass {
     font-size: 1.8rem;
 }
 
@@ -35,16 +40,18 @@
 .nav-search-bar {
     display: flex;
     align-items: center;
-    border: 1px solid #cce0e0;
+    border: 1px solid #dddddd;
     border-radius: 40px;
-    padding: 0.3rem 0.4rem 0.3rem 1.2rem;
+    padding: 0.25rem 0.35rem 0.25rem 1.1rem;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-    transition: box-shadow 0.2s ease;
+    transition: all 0.2s ease;
     background-color: #ffffff;
 }
 
+.nav-search-bar:focus-within,
 .nav-search-bar:hover {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    border-color: #b0b0b0;
 }
 
 .search-input {
@@ -53,6 +60,7 @@
     font-size: 0.9rem;
     width: 180px;
     color: #222222;
+    background: transparent;
 }
 
 .search-btn {
@@ -67,15 +75,19 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    transition: background-color 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #e0323c;
 }
 
 /* 3. Right Container */
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 1rem;
     position: relative;
-    justify-content: flex-end;
 }
 
 .nav-link-host {
@@ -83,8 +95,9 @@
     color: #222222;
     font-weight: 600;
     font-size: 0.9rem;
-    padding: 0.5rem 0.8rem;
+    padding: 0.55rem 0.9rem;
     border-radius: 20px;
+    transition: background-color 0.2s ease;
 }
 
 .nav-link-host:hover {
@@ -98,19 +111,33 @@
     gap: 0.75rem;
     border: 1px solid #dddddd;
     padding: 5px 8px 5px 12px;
-    border-radius: 21px;
+    border-radius: 25px;
     cursor: pointer;
     background: #ffffff;
     transition: box-shadow 0.2s ease;
+    user-select: none;
 }
 
 .nav-user-pill:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .user-avatar {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #717171;
+}
+
+.user-avatar-badge {
+    width: 28px;
+    height: 28px;
+    background-color: #222222;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 700;
 }
 
 /* Floating Overlay Dropdown */
@@ -118,48 +145,113 @@
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
-    width: 220px;
+    width: 230px;
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
     border: 1px solid rgba(0, 0, 0, 0.08);
-    padding: 0.7rem;
+    padding: 0.5rem 0;
     display: none;
     z-index: 1050;
-}
-
-.dropdown-menu-custom a{
-    border-bottom: 0.1px rgba(0, 0, 0, 0.273) solid;
+    overflow: hidden;
 }
 
 .dropdown-menu-custom.show {
     display: block;
+    animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .dropdown-item {
     display: block;
-    padding: 0.6rem 1.2rem;
+    padding: 0.65rem 1.25rem;
     text-decoration: none;
     color: #222222;
-    font-size: 15px;
+    font-size: 0.9rem;
+    transition: background-color 0.15s ease;
 }
-
 
 .dropdown-item:hover {
     background-color: #f7f7f7;
 }
 
+.dropdown-divider {
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 0.35rem 0;
+}
+
+.dropdown-header {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8rem;
+    color: #717171;
+}
+
 /* Responsive Fixes */
 @media (max-width: 768px) {
-    .nav-search-bar {
+    .my-nav {
+        padding: 0.6rem 1rem;
+    }
+
+    .nav-search-bar span {
         display: none;
+    }
+
+    .nav-search-bar {
+        padding: 0.2rem 0.2rem 0.2rem 0.8rem;
+    }
+
+    .search-input {
+        width: 110px;
+        font-size: 0.82rem;
     }
 
     .nav-link-host {
         display: none;
     }
 
-    .nav-brand {
-        margin-right: 32px;
+    .nav-brand-text {
+        display: none !important;
+    }
+
+}
+
+@media (max-width: 576px) {
+    .my-nav {
+        padding: 0.4rem 0.75rem !important;
+    }
+
+    .nav-container {
+        gap: 0.5rem !important;
+    }
+
+    .nav-search-bar {
+        padding: 0.2rem 0.4rem !important;
+        max-width: 170px;
+        /* Search bar ki max width limit */
+    }
+
+    .search-input {
+        width: 100px !important;
+        font-size: 0.78rem !important;
+    }
+
+    .search-btn {
+        padding: 0.35rem 0.55rem !important;
+    }
+
+    .nav-user-pill {
+        padding: 3px 6px !important;
     }
 }
